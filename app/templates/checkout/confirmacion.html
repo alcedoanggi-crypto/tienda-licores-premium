@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titulo %}Pedido confirmado · LicoresPremium{% endblock %}
+
+{% block contenido %}
+<div class="container py-5 text-center">
+  <i class="bi bi-check-circle" style="font-size: 3.5rem; color: var(--dorado);"></i>
+  <h1 class="fuente-serif mt-3" style="color: var(--blanco-hueso);">¡Gracias por tu compra!</h1>
+  <p class="text-muted">Tu pedido <strong style="color: var(--dorado);">{{ pedido.numero_pedido }}</strong> ha sido confirmado.</p>
+
+  <div class="panel-admin mx-auto text-start mt-4" style="max-width: 520px;">
+    <table class="table tabla-admin mb-2">
+      {% for d in pedido.detalles %}
+      <tr><td>{{ d.producto.nombre }} x{{ d.cantidad }}</td><td class="text-end">${{ "%.2f"|format(d.subtotal) }}</td></tr>
+      {% endfor %}
+    </table>
+    <div class="d-flex justify-content-between small"><span>Subtotal</span><span>${{ "%.2f"|format(pedido.subtotal) }}</span></div>
+    <div class="d-flex justify-content-between small"><span>Envío</span><span>${{ "%.2f"|format(pedido.costo_envio) }}</span></div>
+    {% if pedido.es_regalo %}<div class="d-flex justify-content-between small"><span>Empaque de regalo</span><span>${{ "%.2f"|format(pedido.costo_empaque_regalo) }}</span></div>{% endif %}
+    <div class="d-flex justify-content-between small"><span>IVA</span><span>${{ "%.2f"|format(pedido.impuesto) }}</span></div>
+    <hr style="border-color: rgba(212,175,55,0.15);">
+    <div class="d-flex justify-content-between fs-5"><strong style="color:var(--blanco-hueso);">Total</strong><strong style="color: var(--dorado);">${{ "%.2f"|format(pedido.total) }}</strong></div>
+  </div>
+
+  <a href="{{ url_for('tienda.catalogo') }}" class="btn btn-dorado mt-4">Seguir comprando</a>
+</div>
+{% endblock %}

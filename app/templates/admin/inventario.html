@@ -1,0 +1,36 @@
+{% extends "admin/base_admin.html" %}
+{% set titulo_pagina = "Inventario" %}
+{% block titulo %}Inventario · Panel administrativo{% endblock %}
+
+{% block contenido %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="form-check">
+    <a href="{{ url_for('admin.inventario_listar', criticos='1' if not solo_criticos else None) }}" class="btn btn-sm {% if solo_criticos %}btn-dorado{% else %}btn-outline-dorado{% endif %}">
+      <i class="bi bi-exclamation-triangle"></i> Solo stock bajo
+    </a>
+  </div>
+  <a href="{{ url_for('admin.inventario_nuevo') }}" class="btn btn-dorado btn-sm"><i class="bi bi-plus-lg"></i> Registrar lote</a>
+</div>
+
+<div class="panel-admin">
+  <table class="table tabla-admin align-middle mb-0">
+    <thead><tr><th>Lote</th><th>Producto</th><th>Añada</th><th class="text-end">Disponible</th><th class="text-end">Reorden</th><th>Ingreso</th></tr></thead>
+    <tbody>
+      {% for l in lotes %}
+      <tr>
+        <td>{{ l.codigo_lote }}</td>
+        <td>{{ l.producto.nombre }}</td>
+        <td>{{ l.anada or '-' }}</td>
+        <td class="text-end">
+          <span class="badge {% if l.stock_bajo %}bg-danger{% else %}bg-secondary{% endif %}">{{ l.cantidad_disponible }} / {{ l.cantidad_inicial }}</span>
+        </td>
+        <td class="text-end">{{ l.punto_reorden }}</td>
+        <td>{{ l.fecha_ingreso.strftime('%d/%m/%Y') }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6" class="text-center text-muted py-3">Sin lotes registrados.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "admin/base_admin.html" %}
+{% set titulo_pagina = "Registrar lote" %}
+{% block titulo %}Registrar lote · Panel administrativo{% endblock %}
+
+{% block contenido %}
+<div class="panel-admin" style="max-width: 700px;">
+  <form method="POST">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Código de lote</label>
+        <input type="text" name="codigo_lote" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Producto</label>
+        <select name="producto_id" class="form-select" required>
+          <option value="">Seleccionar...</option>
+          {% for p in productos %}
+          <option value="{{ p.id }}">{{ p.sku }} — {{ p.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Cantidad inicial</label>
+        <input type="number" min="1" name="cantidad_inicial" class="form-control" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Punto de reorden</label>
+        <input type="number" name="punto_reorden" class="form-control" value="10">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Añada (opcional)</label>
+        <input type="number" name="anada" class="form-control" placeholder="Ej: 2019">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Costo unitario ($)</label>
+        <input type="number" step="0.01" name="costo_unitario" class="form-control" value="0">
+      </div>
+    </div>
+    <div class="mt-4 d-flex gap-2">
+      <button type="submit" class="btn btn-dorado"><i class="bi bi-check-lg"></i> Registrar lote</button>
+      <a href="{{ url_for('admin.inventario_listar') }}" class="btn btn-outline-dorado">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

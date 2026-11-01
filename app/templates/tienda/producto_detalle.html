@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block titulo %}{{ producto.nombre }} · LicoresPremium{% endblock %}
+
+{% block contenido %}
+<div class="container py-5">
+  <div class="row g-5">
+    <div class="col-lg-5">
+      <div class="vitrina" style="min-height: 420px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.15);">
+        {% if producto.imagen_principal %}
+          <img src="{{ producto.imagen_principal }}" alt="{{ producto.nombre }}" style="max-height: 380px; max-width: 100%; object-fit: contain;">
+        {% else %}
+          <i class="bi bi-cup-straw" style="font-size: 6rem; color: rgba(212,175,55,0.3);"></i>
+        {% endif %}
+      </div>
+      {% if producto.imagenes %}
+      <div class="d-flex gap-2 mt-3">
+        {% for img in producto.imagenes %}
+        <div class="vitrina" style="width:70px; height:70px; min-height:auto; border-radius:4px; border:1px solid rgba(212,175,55,0.15);">
+          <img src="{{ img.url }}" style="max-height:55px;">
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="col-lg-7">
+      <div class="categoria-tag mb-2">{{ producto.categoria.nombre if producto.categoria else '' }} {% if producto.marca %}&middot; {{ producto.marca.nombre }}{% endif %}</div>
+      <h1 class="fuente-serif" style="color: var(--blanco-hueso);">{{ producto.nombre }}</h1>
+
+      {% if producto.calificacion_promedio %}
+      <div class="mb-2" style="color: var(--dorado);">
+        {% for i in range(1,6) %}<i class="bi {% if i <= producto.calificacion_promedio %}bi-star-fill{% else %}bi-star{% endif %}"></i>{% endfor %}
+        <span class="text-muted small">{{ producto.calificacion_promedio }} ({{ producto.total_resenas }} reseñas)</span>
+      </div>
+      {% endif %}
+
+      <div class="mb-3">
+        {% if producto.en_oferta %}<span class="precio-tachado fs-5">${{ "%.2f"|format(producto.precio) }}</span>{% endif %}
+        <span class="precio fs-2">${{ "%.2f"|format(producto.precio_final) }}</span>
+      </div>
+
+      <table class="table table-sm mb-4" style="color: var(--gris-texto);">
+        <tr><th style="width:180px;">Origen</th><td>{{ producto.origen or '-' }}</td></tr>
+        <tr><th>Graduación alcohólica</th><td>{{ producto.graduacion_alcoholica or '-' }}% vol</td></tr>
+        <tr><th>Volumen</th><td>{{ producto.volumen_ml }} ml</td></tr>
+        <tr><th>Disponibilidad</th><td>
+          {% if producto.stock_total > 0 %}<span class="text-success">En stock ({{ producto.stock_total }} unidades)</span>
+          {% else %}<span class="text-danger">Agotado</span>{% endif %}
+        </td></tr>
+      </table>
+
+      {% if producto.notas_cata %}
+      <h6 class="fuente-serif" style="color: var(--dorado);">Notas de cata</h6>
+      <p>{{ producto.notas_cata }}</p>
+      {% endif %}
+
+      {% if producto.maridaje %}
+      <h6 class="fuente-serif" style="color: var(--dorado);">Maridaje sugerido</h6>
+      <p>{{ producto.maridaje }}</p>
+      {% endif %}
+
+      {% if producto.descripcion %}
+      <p class="text-muted">{{ producto.descripcion }}</p>
+      {% endif %}
+
+      <form id="form-agregar-carrito" class="d-flex gap-2 mt-4" data-producto-id="{{ producto.id }}">
+        <input type="number" name="cantidad" value="1" min="1" max="{{ producto.stock_total }}" class="form-control" style="width: 90px;" {% if producto.stock_total == 0 %}disabled{% endif %}>
+        <button type="submit" class="btn btn-dorado flex-grow-1" {% if producto.stock_total == 0 %}disabled{% endif %}>
+          <i class="bi bi-bag-plus"></i> Agregar al carrito
+        </button>
+      </form>
+      <div id="mensaje-carrito" class="small mt-2"></div>
+    </div>
+  </div>
+
+  {% if producto.recomendados %}
+  <section class="mt-5">
+    <h4 class="fuente-serif mb-3" style="color: var(--blanco-hueso);">Compra también</h4>
+    <div class="row g-4">
+      {% for r in producto.recomendados %}
+      <div class="col-6 col-md-3">{% set p = r %}{% include "tienda/_tarjeta_producto.html" %}</div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="mt-5">
+    <h4 class="fuente-serif mb-3" style="color: var(--blanco-hueso);">Reseñas de clientes</h4>
+
+    {% if current_user.is_authenticated and not current_user.es_admin %}
+    <form method="POST" action="{{ url_for('resenas.crear', producto_id=producto.id) }}" class="panel-admin mb-4">
+      <label class="form-label">Tu calificación</label>
+      <select name="calificacion" class="form-select form-select-sm mb-2" style="max-width:160px;">
+        <option value="5">5 - Excelente</option>
+        <option value="4">4 - Muy bueno</option>
+        <option value="3">3 - Bueno</option>
+        <option value="2">2 - Regular</option>
+        <option value="1">1 - Malo</option>
+      </select>
+      <textarea name="comentario" class="form-control mb-2" rows="2" placeholder="Cuéntanos tu experiencia..."></textarea>
+      <button type="submit" class="btn btn-outline-dorado btn-sm">Publicar reseña</button>
+    </form>
+    {% endif %}
+
+    {% for r in resenas %}
+    <div class="mb-3 pb-3" style="border-bottom: 1px solid rgba(212,175,55,0.1);">
+      <div style="color: var(--dorado);">
+        {% for i in range(1,6) %}<i class="bi {% if i <= r.calificacion %}bi-star-fill{% else %}bi-star{% endif %} small"></i>{% endfor %}
+        <strong class="ms-2" style="color: var(--blanco-hueso);">{{ r.usuario.nombre_completo }}</strong>
+      </div>
+      <p class="mb-0 mt-1">{{ r.comentario }}</p>
+    </div>
+    {% else %}
+    <p class="text-muted">Aún no hay reseñas para este producto.</p>
+    {% endfor %}
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script src="{{ url_for('static', filename='js/carrito.js') }}"></script>
+{% endblock %}

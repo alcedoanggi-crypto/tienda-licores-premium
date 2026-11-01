@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% set codigo_error = "403" %}
+{% set mensaje_error = "No tienes permisos para acceder a esta sección." %}
+{% set icono_error = "bi-shield-lock" %}
+{% block titulo %}403 · Prohibido{% endblock %}
+{% block contenido %}{% include "errors/_error.html" %}{% endblock %}

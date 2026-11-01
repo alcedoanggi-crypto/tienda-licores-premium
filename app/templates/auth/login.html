@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block titulo %}Iniciar sesión · LicoresPremium{% endblock %}
+
+{% block contenido %}
+<div class="d-flex align-items-center justify-content-center py-5" style="min-height: 75vh;">
+  <div class="card card-oscura shadow-lg" style="width: 400px;">
+    <div class="card-body p-4">
+      <div class="text-center mb-4">
+        <i class="bi bi-cup-straw" style="font-size:2rem; color: var(--dorado);"></i>
+        <h4 class="fuente-serif mt-2 mb-0" style="color: var(--blanco-hueso);">Bienvenido de vuelta</h4>
+        <small class="text-muted">Ingresa tus credenciales para continuar</small>
+      </div>
+
+      <form method="POST">
+        <div class="mb-3">
+          <label class="form-label">Correo electrónico</label>
+          <input type="email" name="email" class="form-control" required autofocus>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Contraseña</label>
+          <input type="password" name="password" class="form-control" required>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" name="recordar" id="recordar">
+          <label class="form-check-label" for="recordar">Recordarme</label>
+        </div>
+        <button type="submit" class="btn btn-dorado w-100">Ingresar <i class="bi bi-arrow-right"></i></button>
+      </form>
+
+      <p class="text-center mt-3 mb-0 small">¿No tienes cuenta? <a href="{{ url_for('auth.registro') }}">Regístrate aquí</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

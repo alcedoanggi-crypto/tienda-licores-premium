@@ -1,0 +1,368 @@
+body {
+  background-color: var(--negro-elegante);
+  color: var(--gris-texto);
+  font-family: var(--fuente-sans);
+}
+
+h1, h2, h3, h4, .fuente-serif {
+  font-family: var(--fuente-serif);
+}
+
+a { color: var(--dorado); }
+a:hover { color: var(--dorado-claro); }
+
+/* ---------- Navbar tienda ---------- */
+.navbar-premium {
+  background: linear-gradient(180deg, var(--negro-elegante) 0%, var(--negro-suave) 100%);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding: 0.9rem 0;
+}
+
+.navbar-premium .navbar-brand {
+  font-family: var(--fuente-serif);
+  font-size: 1.5rem;
+  color: var(--dorado);
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+.navbar-premium .nav-link {
+  color: var(--gris-texto);
+  font-size: 0.92rem;
+  letter-spacing: 0.03em;
+}
+
+.navbar-premium .nav-link:hover,
+.navbar-premium .nav-link.active {
+  color: var(--dorado);
+}
+
+.badge-carrito {
+  background: var(--ambar-whisky);
+  color: var(--negro-elegante);
+  font-weight: 700;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  min-width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Hero home ---------- */
+.hero-premium {
+  position: relative;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(212, 175, 55, 0.18) 0%, transparent 55%),
+    linear-gradient(135deg, #0d0b09 0%, #1c1712 60%, #0d0b09 100%);
+  padding: 6rem 0 5rem;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.hero-premium::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(184, 134, 11, 0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-premium h1 {
+  font-size: 3rem;
+  color: var(--blanco-hueso);
+  line-height: 1.15;
+}
+
+.hero-premium .destacar {
+  color: var(--dorado);
+  font-style: italic;
+}
+
+.hero-premium p.lead {
+  color: var(--gris-texto);
+  font-size: 1.1rem;
+}
+
+/* ---------- Botones ---------- */
+.btn-dorado {
+  background: linear-gradient(135deg, var(--ambar-whisky) 0%, var(--dorado) 100%);
+  border: none;
+  color: var(--negro-elegante);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.65rem 1.6rem;
+  border-radius: var(--radio-borde);
+}
+
+.btn-dorado:hover {
+  background: linear-gradient(135deg, var(--dorado) 0%, var(--dorado-claro) 100%);
+  color: var(--negro-elegante);
+  box-shadow: var(--sombra-dorada);
+}
+
+.btn-outline-dorado {
+  border: 1px solid var(--dorado);
+  color: var(--dorado);
+  background: transparent;
+}
+
+.btn-outline-dorado:hover {
+  background: var(--dorado);
+  color: var(--negro-elegante);
+}
+
+/* ---------- Tarjetas de producto (vitrina de bar) ---------- */
+.card-producto {
+  background: var(--negro-suave);
+  border: 1px solid rgba(212, 175, 55, 0.12);
+  border-radius: var(--radio-borde);
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  height: 100%;
+}
+
+.card-producto:hover {
+  transform: translateY(-4px);
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: var(--sombra-dorada);
+}
+
+.card-producto .vitrina {
+  background: radial-gradient(circle at 50% 30%, #2a241c 0%, #0e0c0a 80%);
+  padding: 1.5rem;
+  text-align: center;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-producto .vitrina img {
+  max-height: 190px;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.6));
+}
+
+.card-producto .cuerpo {
+  padding: 1rem 1.1rem 1.2rem;
+}
+
+.card-producto .categoria-tag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ambar-whisky-claro);
+}
+
+.card-producto h5 {
+  font-family: var(--fuente-serif);
+  color: var(--blanco-hueso);
+  font-size: 1.05rem;
+  margin: 0.2rem 0 0.4rem;
+}
+
+.card-producto .precio {
+  color: var(--dorado);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.card-producto .precio-tachado {
+  color: #756f60;
+  text-decoration: line-through;
+  font-size: 0.85rem;
+  margin-right: 0.4rem;
+}
+
+.badge-oferta {
+  background: var(--peligro);
+  color: var(--blanco-hueso);
+  font-size: 0.7rem;
+  padding: 0.25em 0.6em;
+}
+
+/* ---------- Verificación de edad ---------- */
+.pantalla-edad {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(184, 134, 11, 0.22) 0%, transparent 60%),
+    linear-gradient(180deg, #0a0908 0%, #161310 100%);
+  position: relative;
+}
+
+.pantalla-edad .tarjeta-edad {
+  background: rgba(17, 17, 17, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 6px;
+  padding: 2.5rem 2.2rem;
+  max-width: 420px;
+  width: 92%;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(212, 175, 55, 0.12);
+}
+
+.pantalla-edad h1 {
+  font-size: 1.8rem;
+  color: var(--dorado);
+  margin-bottom: 0.3rem;
+}
+
+.pantalla-edad .subtitulo {
+  color: var(--gris-texto);
+  font-size: 0.9rem;
+  margin-bottom: 1.8rem;
+}
+
+.pantalla-edad .form-control {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: var(--blanco-hueso);
+}
+
+.pantalla-edad .form-control:focus {
+  border-color: var(--dorado);
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--blanco-hueso);
+}
+
+/* ---------- Formularios oscuros (login/registro) ---------- */
+.card-oscura {
+  background: var(--negro-suave);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 6px;
+}
+
+.card-oscura .form-control,
+.card-oscura .form-select {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  color: var(--blanco-hueso);
+}
+
+.card-oscura .form-control:focus,
+.card-oscura .form-select:focus {
+  border-color: var(--dorado);
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--blanco-hueso);
+}
+
+.card-oscura label { color: var(--gris-texto); }
+
+/* ---------- Filtros catálogo ---------- */
+.filtros-panel {
+  background: var(--negro-suave);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: var(--radio-borde);
+  padding: 1.2rem;
+}
+
+.filtros-panel label { color: var(--gris-texto); font-size: 0.85rem; }
+
+/* ---------- Footer ---------- */
+.footer-premium {
+  background: var(--negro-suave);
+  border-top: 1px solid rgba(212, 175, 55, 0.15);
+  color: #857f70;
+  padding: 2.5rem 0;
+  font-size: 0.85rem;
+}
+
+/* =====================================================================
+   PANEL ADMINISTRATIVO (layout separado)
+===================================================================== */
+.admin-sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--negro-elegante) 0%, #000000 100%);
+  border-right: 1px solid rgba(212, 175, 55, 0.15);
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 1030;
+}
+
+.admin-sidebar .brand {
+  padding: 1.3rem 1.25rem;
+  font-family: var(--fuente-serif);
+  color: var(--dorado);
+  font-weight: 700;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.admin-sidebar .nav-link {
+  color: var(--gris-texto);
+  padding: 0.6rem 1.25rem;
+  font-size: 0.88rem;
+  border-left: 3px solid transparent;
+}
+
+.admin-sidebar .nav-link:hover { color: var(--dorado); background: rgba(212,175,55,0.05); }
+
+.admin-sidebar .nav-link.active {
+  color: var(--dorado);
+  border-left-color: var(--dorado);
+  background: rgba(212, 175, 55, 0.08);
+  font-weight: 600;
+}
+
+.admin-content { margin-left: 240px; padding: 1.5rem; min-height: 100vh; background: #0d0d0d; }
+
+.kpi-card-admin {
+  background: var(--negro-suave);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-left: 4px solid var(--dorado);
+  border-radius: var(--radio-borde);
+  padding: 1.1rem 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+}
+
+.kpi-card-admin.alerta { border-left-color: var(--peligro); }
+
+.kpi-card-admin .kpi-icono {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--dorado);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+
+.kpi-card-admin .kpi-valor { font-size: 1.6rem; font-weight: 700; color: var(--blanco-hueso); }
+.kpi-card-admin .kpi-etiqueta { font-size: 0.78rem; color: #857f70; text-transform: uppercase; letter-spacing: 0.04em; }
+
+.panel-admin {
+  background: var(--negro-suave);
+  border: 1px solid rgba(212, 175, 55, 0.12);
+  border-radius: var(--radio-borde);
+  padding: 1.25rem;
+}
+
+.panel-admin .panel-titulo { color: var(--dorado); font-weight: 700; margin-bottom: 0.9rem; font-family: var(--fuente-serif); }
+
+.tabla-admin { color: var(--gris-texto); font-size: 0.86rem; }
+.tabla-admin thead th {
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--dorado);
+  border-color: rgba(212, 175, 55, 0.15);
+  white-space: nowrap;
+}
+.tabla-admin td, .tabla-admin th { border-color: rgba(212, 175, 55, 0.08); vertical-align: middle; }
+.tabla-admin tbody tr:hover { background: rgba(212, 175, 55, 0.05); }
+
+@media (max-width: 991px) {
+  .admin-sidebar { width: 100%; position: relative; min-height: auto; }
+  .admin-content { margin-left: 0; }
+}

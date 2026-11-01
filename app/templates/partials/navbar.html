@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-premium navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('tienda.home') }}"><i class="bi bi-cup-straw"></i> Licores<span style="color:var(--blanco-hueso);">Premium</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navPrincipal" style="border-color: rgba(212,175,55,0.3);">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navPrincipal">
+      <ul class="navbar-nav me-auto ms-lg-4">
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'tienda.home' %}active{% endif %}" href="{{ url_for('tienda.home') }}">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'tienda.catalogo' %}active{% endif %}" href="{{ url_for('tienda.catalogo') }}">Catálogo</a></li>
+      </ul>
+
+      <form class="d-flex me-3" method="GET" action="{{ url_for('tienda.catalogo') }}">
+        <input type="search" name="q" class="form-control form-control-sm" placeholder="Buscar whisky, ron, vino..."
+               style="background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.25); color: var(--blanco-hueso); min-width: 220px;">
+      </form>
+
+      <ul class="navbar-nav align-items-lg-center gap-2">
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="{{ url_for('carrito.ver') }}">
+            <i class="bi bi-bag fs-5"></i> Carrito
+            {% if carrito_cantidad %}<span class="badge-carrito ms-1">{{ carrito_cantidad }}</span>{% endif %}
+          </a>
+        </li>
+        {% if current_user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle"></i> {{ current_user.nombre_completo.split(' ')[0] }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" style="background: var(--negro-suave); border-color: rgba(212,175,55,0.2);">
+            {% if current_user.es_admin %}
+            <li><a class="dropdown-item text-warning" href="{{ url_for('admin.dashboard') }}"><i class="bi bi-speedometer2"></i> Panel administrativo</a></li>
+            <li><hr class="dropdown-divider" style="border-color: rgba(212,175,55,0.15);"></li>
+            {% endif %}
+            <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Ingresar</a></li>
+        <li class="nav-item"><a class="btn btn-dorado btn-sm" href="{{ url_for('auth.registro') }}">Crear cuenta</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<style>
+  .dropdown-menu .dropdown-item { color: var(--gris-texto); }
+  .dropdown-menu .dropdown-item:hover { background: rgba(212,175,55,0.1); color: var(--dorado); }
+</style>

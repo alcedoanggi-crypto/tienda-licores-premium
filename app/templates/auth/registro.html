@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block titulo %}Crear cuenta · LicoresPremium{% endblock %}
+
+{% block contenido %}
+<div class="d-flex align-items-center justify-content-center py-5">
+  <div class="card card-oscura shadow-lg" style="width: 460px;">
+    <div class="card-body p-4">
+      <div class="text-center mb-4">
+        <i class="bi bi-person-plus" style="font-size:2rem; color: var(--dorado);"></i>
+        <h4 class="fuente-serif mt-2 mb-0" style="color: var(--blanco-hueso);">Crear cuenta</h4>
+        <small class="text-muted">Debes ser mayor de 18 años para registrarte</small>
+      </div>
+
+      <form method="POST">
+        <div class="mb-3">
+          <label class="form-label">Nombre completo</label>
+          <input type="text" name="nombre_completo" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Correo electrónico</label>
+          <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Contraseña</label>
+          <input type="password" name="password" class="form-control" required minlength="6">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Fecha de nacimiento</label>
+          <input type="date" name="fecha_nacimiento" class="form-control" required>
+        </div>
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <label class="form-label">Teléfono</label>
+            <input type="text" name="telefono" class="form-control">
+          </div>
+          <div class="col-6">
+            <label class="form-label">Ciudad</label>
+            <input type="text" name="ciudad" class="form-control">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Dirección de envío</label>
+          <input type="text" name="direccion" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-dorado w-100">Crear cuenta <i class="bi bi-arrow-right"></i></button>
+      </form>
+
+      <p class="text-center mt-3 mb-0 small">¿Ya tienes cuenta? <a href="{{ url_for('auth.login') }}">Inicia sesión</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

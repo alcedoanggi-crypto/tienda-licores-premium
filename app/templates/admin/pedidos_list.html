@@ -1,0 +1,41 @@
+{% extends "admin/base_admin.html" %}
+{% set titulo_pagina = "Pedidos" %}
+{% block titulo %}Pedidos · Panel administrativo{% endblock %}
+
+{% block contenido %}
+<div class="filtros-panel mb-3">
+  <form method="GET" class="row g-2 align-items-end">
+    <div class="col-md-4">
+      <label class="form-label">Estado</label>
+      <select name="estado" class="form-select form-select-sm">
+        <option value="">Todos</option>
+        {% for e in estados %}
+        <option value="{{ e.value }}" {% if estado == e.value %}selected{% endif %}>{{ e.value|capitalize }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-dorado btn-sm w-100">Filtrar</button>
+    </div>
+  </form>
+</div>
+
+<div class="panel-admin">
+  <table class="table tabla-admin align-middle mb-0">
+    <thead><tr><th>N° Pedido</th><th>Cliente</th><th>Fecha</th><th>Estado</th><th class="text-end">Total</th></tr></thead>
+    <tbody>
+      {% for p in pedidos %}
+      <tr>
+        <td><a href="{{ url_for('admin.pedidos_detalle', pedido_id=p.id) }}" style="color: var(--dorado);">{{ p.numero_pedido }}</a></td>
+        <td>{{ p.usuario.nombre_completo }}</td>
+        <td>{{ p.fecha_pedido.strftime('%d/%m/%Y') }}</td>
+        <td><span class="badge bg-secondary text-capitalize">{{ p.estado.value }}</span></td>
+        <td class="text-end">${{ "%.2f"|format(p.total) }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="text-center text-muted py-3">Sin pedidos registrados.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

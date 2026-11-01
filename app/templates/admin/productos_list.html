@@ -1,0 +1,32 @@
+{% extends "admin/base_admin.html" %}
+{% set titulo_pagina = "Productos" %}
+{% block titulo %}Productos · Panel administrativo{% endblock %}
+
+{% block contenido %}
+<div class="d-flex justify-content-end mb-3">
+  <a href="{{ url_for('admin.productos_nuevo') }}" class="btn btn-dorado btn-sm"><i class="bi bi-plus-lg"></i> Nuevo producto</a>
+</div>
+<div class="panel-admin">
+  <div class="table-responsive">
+    <table class="table tabla-admin align-middle mb-0">
+      <thead><tr><th>SKU</th><th>Nombre</th><th>Categoría</th><th>Marca</th><th class="text-end">Precio</th><th class="text-end">Stock</th><th>Estado</th><th></th></tr></thead>
+      <tbody>
+        {% for p in productos %}
+        <tr>
+          <td>{{ p.sku }}</td>
+          <td>{{ p.nombre }} {% if p.destacado %}<i class="bi bi-star-fill text-warning" title="Destacado"></i>{% endif %}</td>
+          <td>{{ p.categoria.nombre if p.categoria else '-' }}</td>
+          <td>{{ p.marca.nombre if p.marca else '-' }}</td>
+          <td class="text-end">${{ "%.2f"|format(p.precio_final) }}</td>
+          <td class="text-end">{{ p.stock_total }}</td>
+          <td>{% if p.activo %}<span class="badge bg-success">Activo</span>{% else %}<span class="badge bg-secondary">Inactivo</span>{% endif %}</td>
+          <td><a href="{{ url_for('admin.productos_editar', producto_id=p.id) }}" class="btn btn-sm btn-outline-light"><i class="bi bi-pencil"></i></a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="text-center text-muted py-3">Sin productos registrados.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

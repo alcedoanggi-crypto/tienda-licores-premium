@@ -1,0 +1,21 @@
+:root {
+  --ambar-whisky: #B8860B;
+  --ambar-whisky-claro: #D4A017;
+  --negro-elegante: #111111;
+  --negro-suave: #1C1A17;
+  --dorado: #D4AF37;
+  --dorado-claro: #E8C766;
+  --blanco-hueso: #F5F1E8;
+  --gris-texto: #C9C3B6;
+
+  --exito: #3E7A4C;
+  --peligro: #A6382E;
+  --advertencia: #D4A017;
+  --info: #3E6A7A;
+
+  --fuente-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --fuente-sans: "Jost", "Segoe UI", Arial, sans-serif;
+
+  --sombra-dorada: 0 4px 20px rgba(212, 175, 55, 0.15);
+  --radio-borde: 4px;
+}

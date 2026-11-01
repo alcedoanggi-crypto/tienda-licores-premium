@@ -1,0 +1,27 @@
+<div class="card-producto">
+  <a href="{{ url_for('tienda.producto_detalle', slug=p.slug) }}" class="text-decoration-none">
+    <div class="vitrina position-relative">
+      {% if p.en_oferta %}<span class="badge badge-oferta position-absolute top-0 start-0 m-2">Oferta</span>{% endif %}
+      {% if p.imagen_principal %}
+        <img src="{{ p.imagen_principal }}" alt="{{ p.nombre }}">
+      {% else %}
+        <i class="bi bi-cup-straw" style="font-size: 3.5rem; color: rgba(212,175,55,0.35);"></i>
+      {% endif %}
+    </div>
+    <div class="cuerpo">
+      <div class="categoria-tag">{{ p.categoria.nombre if p.categoria else '' }}</div>
+      <h5>{{ p.nombre }}</h5>
+      <div class="small text-muted mb-2">{{ p.marca.nombre if p.marca else '' }} {% if p.graduacion_alcoholica %}&middot; {{ p.graduacion_alcoholica }}% vol{% endif %}</div>
+      <div>
+        {% if p.en_oferta %}<span class="precio-tachado">${{ "%.2f"|format(p.precio) }}</span>{% endif %}
+        <span class="precio">${{ "%.2f"|format(p.precio_final) }}</span>
+      </div>
+      {% if p.calificacion_promedio %}
+      <div class="small mt-1" style="color: var(--dorado);">
+        {% for i in range(1,6) %}<i class="bi {% if i <= p.calificacion_promedio %}bi-star-fill{% else %}bi-star{% endif %}"></i>{% endfor %}
+        <span class="text-muted">({{ p.total_resenas }})</span>
+      </div>
+      {% endif %}
+    </div>
+  </a>
+</div>

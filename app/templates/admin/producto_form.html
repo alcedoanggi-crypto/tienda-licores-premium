@@ -1,0 +1,93 @@
+{% extends "admin/base_admin.html" %}
+{% set titulo_pagina = "Editar producto" if producto else "Nuevo producto" %}
+{% block titulo %}{{ titulo_pagina }} · Panel administrativo{% endblock %}
+
+{% block contenido %}
+<div class="panel-admin" style="max-width: 860px;">
+  <form method="POST">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">SKU</label>
+        <input type="text" name="sku" class="form-control" value="{{ producto.sku if producto else '' }}" required>
+      </div>
+      <div class="col-md-8">
+        <label class="form-label">Nombre</label>
+        <input type="text" name="nombre" class="form-control" value="{{ producto.nombre if producto else '' }}" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Categoría</label>
+        <select name="categoria_id" class="form-select" required>
+          <option value="">Seleccionar...</option>
+          {% for c in categorias %}
+          <option value="{{ c.id }}" {% if producto and producto.categoria_id == c.id %}selected{% endif %}>{{ c.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Marca</label>
+        <select name="marca_id" class="form-select">
+          <option value="">-- Ninguna --</option>
+          {% for m in marcas %}
+          <option value="{{ m.id }}" {% if producto and producto.marca_id == m.id %}selected{% endif %}>{{ m.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Origen</label>
+        <input type="text" name="origen" class="form-control" placeholder="Islay, Escocia" value="{{ producto.origen if producto else '' }}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Precio ($)</label>
+        <input type="number" step="0.01" name="precio" class="form-control" value="{{ producto.precio if producto else 0 }}" required>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Precio oferta ($)</label>
+        <input type="number" step="0.01" name="precio_oferta" class="form-control" value="{{ producto.precio_oferta if producto and producto.precio_oferta else '' }}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Costo ($)</label>
+        <input type="number" step="0.01" name="costo" class="form-control" value="{{ producto.costo if producto else 0 }}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Volumen (ml)</label>
+        <input type="number" name="volumen_ml" class="form-control" value="{{ producto.volumen_ml if producto else 750 }}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Graduación alcohólica (% vol)</label>
+        <input type="number" step="0.1" name="graduacion_alcoholica" class="form-control" value="{{ producto.graduacion_alcoholica if producto else '' }}">
+      </div>
+      <div class="col-md-9">
+        <label class="form-label">Imagen principal (URL)</label>
+        <input type="text" name="imagen_principal" class="form-control" value="{{ producto.imagen_principal if producto else '' }}">
+      </div>
+      <div class="col-12">
+        <label class="form-label">Notas de cata</label>
+        <textarea name="notas_cata" class="form-control" rows="2">{{ producto.notas_cata if producto else '' }}</textarea>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Maridaje sugerido</label>
+        <textarea name="maridaje" class="form-control" rows="2">{{ producto.maridaje if producto else '' }}</textarea>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Descripción</label>
+        <textarea name="descripcion" class="form-control" rows="2">{{ producto.descripcion if producto else '' }}</textarea>
+      </div>
+      <div class="col-md-6 form-check ms-1">
+        <input type="checkbox" class="form-check-input" name="destacado" id="destacado" {% if producto and producto.destacado %}checked{% endif %}>
+        <label class="form-check-label" for="destacado">Producto destacado (home)</label>
+      </div>
+      {% if producto %}
+      <div class="col-md-6 form-check ms-1">
+        <input type="checkbox" class="form-check-input" name="activo" id="activo" {% if producto.activo %}checked{% endif %}>
+        <label class="form-check-label" for="activo">Producto activo</label>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="mt-4 d-flex gap-2">
+      <button type="submit" class="btn btn-dorado"><i class="bi bi-check-lg"></i> Guardar</button>
+      <a href="{{ url_for('admin.productos_listar') }}" class="btn btn-outline-dorado">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

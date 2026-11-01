@@ -1,0 +1,29 @@
+{% extends "admin/base_admin.html" %}
+{% set titulo_pagina = "Promociones" %}
+{% block titulo %}Promociones · Panel administrativo{% endblock %}
+
+{% block contenido %}
+<div class="d-flex justify-content-end mb-3">
+  <a href="{{ url_for('admin.promociones_nueva') }}" class="btn btn-dorado btn-sm"><i class="bi bi-plus-lg"></i> Nueva promoción</a>
+</div>
+
+<div class="panel-admin">
+  <table class="table tabla-admin align-middle mb-0">
+    <thead><tr><th>Código</th><th>Nombre</th><th>Tipo</th><th class="text-end">Valor</th><th>Vigencia</th><th>Estado</th></tr></thead>
+    <tbody>
+      {% for promo in promociones %}
+      <tr>
+        <td><strong style="color: var(--dorado);">{{ promo.codigo }}</strong></td>
+        <td>{{ promo.nombre }}</td>
+        <td class="text-capitalize">{{ promo.tipo.value.replace('_',' ') }}</td>
+        <td class="text-end">{% if promo.tipo.value == 'porcentaje' %}{{ promo.valor }}%{% else %}${{ "%.2f"|format(promo.valor) }}{% endif %}</td>
+        <td>{{ promo.fecha_inicio.strftime('%d/%m/%Y') }} — {{ promo.fecha_fin.strftime('%d/%m/%Y') }}</td>
+        <td>{% if promo.vigente %}<span class="badge bg-success">Vigente</span>{% else %}<span class="badge bg-secondary">No vigente</span>{% endif %}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6" class="text-center text-muted py-3">Sin promociones registradas.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

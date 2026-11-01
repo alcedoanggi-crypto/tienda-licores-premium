@@ -1,0 +1,34 @@
+{% extends "admin/base_admin.html" %}
+{% set titulo_pagina = "Reseñas" %}
+{% block titulo %}Reseñas · Panel administrativo{% endblock %}
+
+{% block contenido %}
+<div class="panel-admin">
+  <table class="table tabla-admin align-middle mb-0">
+    <thead><tr><th>Producto</th><th>Cliente</th><th>Calificación</th><th>Comentario</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+      {% for r in resenas %}
+      <tr>
+        <td>{{ r.producto.nombre }}</td>
+        <td>{{ r.usuario.nombre_completo }}</td>
+        <td style="color: var(--dorado);">{% for i in range(r.calificacion) %}<i class="bi bi-star-fill"></i>{% endfor %}</td>
+        <td class="small">{{ r.comentario or '-' }}</td>
+        <td>{% if r.aprobada %}<span class="badge bg-success">Publicada</span>{% else %}<span class="badge bg-warning text-dark">Pendiente</span>{% endif %}</td>
+        <td class="d-flex gap-1">
+          {% if not r.aprobada %}
+          <form method="POST" action="{{ url_for('admin.resenas_aprobar', resena_id=r.id) }}">
+            <button type="submit" class="btn btn-sm btn-outline-success"><i class="bi bi-check-lg"></i></button>
+          </form>
+          {% endif %}
+          <form method="POST" action="{{ url_for('admin.resenas_eliminar', resena_id=r.id) }}" onsubmit="return confirm('¿Eliminar esta reseña?');">
+            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+          </form>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6" class="text-center text-muted py-3">Sin reseñas registradas.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block titulo %}Catálogo · LicoresPremium{% endblock %}
+
+{% block contenido %}
+<div class="container py-5">
+  <h1 class="fuente-serif mb-4" style="color: var(--blanco-hueso);">Catálogo</h1>
+
+  <div class="row g-4">
+    <div class="col-lg-3">
+      <div class="filtros-panel">
+        <form method="GET">
+          {% if filtros.q %}<input type="hidden" name="q" value="{{ filtros.q }}">{% endif %}
+
+          <label class="form-label">Categoría</label>
+          <select name="categoria_id" class="form-select form-select-sm mb-3" onchange="this.form.submit()">
+            <option value="">Todas</option>
+            {% for c in categorias %}
+            <option value="{{ c.id }}" {% if filtros.categoria_id == c.id %}selected{% endif %}>{{ c.nombre }}</option>
+            {% endfor %}
+          </select>
+
+          <label class="form-label">Marca</label>
+          <select name="marca_id" class="form-select form-select-sm mb-3" onchange="this.form.submit()">
+            <option value="">Todas</option>
+            {% for m in marcas %}
+            <option value="{{ m.id }}" {% if filtros.marca_id == m.id %}selected{% endif %}>{{ m.nombre }}</option>
+            {% endfor %}
+          </select>
+
+          <label class="form-label">Precio</label>
+          <div class="row g-1 mb-3">
+            <div class="col-6"><input type="number" name="precio_min" value="{{ filtros.precio_min or '' }}" class="form-control form-control-sm" placeholder="Mín"></div>
+            <div class="col-6"><input type="number" name="precio_max" value="{{ filtros.precio_max or '' }}" class="form-control form-control-sm" placeholder="Máx"></div>
+          </div>
+
+          <label class="form-label">Graduación mínima (% vol)</label>
+          <input type="number" step="0.1" name="graduacion_min" value="{{ filtros.graduacion_min or '' }}" class="form-control form-control-sm mb-3">
+
+          <label class="form-label">Ordenar por</label>
+          <select name="orden" class="form-select form-select-sm mb-3" onchange="this.form.submit()">
+            <option value="nombre" {% if filtros.orden == 'nombre' %}selected{% endif %}>Nombre</option>
+            <option value="precio_asc" {% if filtros.orden == 'precio_asc' %}selected{% endif %}>Precio: menor a mayor</option>
+            <option value="precio_desc" {% if filtros.orden == 'precio_desc' %}selected{% endif %}>Precio: mayor a menor</option>
+            <option value="recientes" {% if filtros.orden == 'recientes' %}selected{% endif %}>Más recientes</option>
+          </select>
+
+          <button type="submit" class="btn btn-dorado btn-sm w-100">Aplicar filtros</button>
+          <a href="{{ url_for('tienda.catalogo') }}" class="btn btn-outline-dorado btn-sm w-100 mt-2">Limpiar</a>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-9">
+      {% if filtros.q %}
+      <p class="small text-muted mb-3">Resultados para "<strong>{{ filtros.q }}</strong>" ({{ productos|length }})</p>
+      {% endif %}
+      <div class="row g-4">
+        {% for p in productos %}
+        <div class="col-6 col-md-4 col-xl-3">
+          {% include "tienda/_tarjeta_producto.html" %}
+        </div>
+        {% else %}
+        <div class="col-12">
+          <p class="text-muted">No se encontraron productos con esos filtros.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

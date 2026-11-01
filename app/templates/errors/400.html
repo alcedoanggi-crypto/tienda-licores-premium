@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% set codigo_error = "400" %}
+{% set mensaje_error = "Solicitud inválida." %}
+{% set icono_error = "bi-exclamation-circle" %}
+{% block titulo %}400 · Solicitud inválida{% endblock %}
+{% block contenido %}{% include "errors/_error.html" %}{% endblock %}

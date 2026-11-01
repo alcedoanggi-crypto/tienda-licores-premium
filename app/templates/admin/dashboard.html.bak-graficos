@@ -1,0 +1,78 @@
+{% extends "admin/base_admin.html" %}
+{% set titulo_pagina = "Dashboard" %}
+{% block titulo %}Dashboard · Panel administrativo{% endblock %}
+
+{% block contenido %}
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="kpi-card-admin alerta">
+      <div class="kpi-icono"><i class="bi bi-exclamation-triangle"></i></div>
+      <div><div class="kpi-valor">{{ stock_bajo }}</div><div class="kpi-etiqueta">Lotes con stock bajo</div></div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi-card-admin">
+      <div class="kpi-icono"><i class="bi bi-receipt"></i></div>
+      <div><div class="kpi-valor">{{ pedidos_pendientes }}</div><div class="kpi-etiqueta">Pedidos pendientes</div></div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi-card-admin">
+      <div class="kpi-icono"><i class="bi bi-star"></i></div>
+      <div><div class="kpi-valor">{{ resenas_pendientes }}</div><div class="kpi-etiqueta">Reseñas por moderar</div></div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi-card-admin">
+      <div class="kpi-icono"><i class="bi bi-cash-coin"></i></div>
+      <div><div class="kpi-valor">${{ "{:,.2f}".format(ingresos_mes) }}</div><div class="kpi-etiqueta">Ingresos del mes</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-lg-4">
+    <div class="panel-admin">
+      <div class="panel-titulo">Productos más vendidos</div>
+      <canvas id="graficoMasVendidos" height="220"></canvas>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="panel-admin">
+      <div class="panel-titulo">Ventas por categoría</div>
+      <canvas id="graficoCategorias" height="220"></canvas>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="panel-admin">
+      <div class="panel-titulo">Ingresos mensuales</div>
+      <canvas id="graficoIngresos" height="220"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="panel-admin">
+  <div class="panel-titulo"><i class="bi bi-exclamation-triangle text-danger"></i> Lotes con stock bajo</div>
+  {% if lotes_criticos %}
+  <table class="table tabla-admin mb-0">
+    <thead><tr><th>Lote</th><th>Producto</th><th class="text-end">Disponible</th><th class="text-end">Reorden</th></tr></thead>
+    <tbody>
+      {% for l in lotes_criticos %}
+      <tr>
+        <td>{{ l.codigo_lote }}</td>
+        <td>{{ l.producto.nombre }}{% if l.anada %} ({{ l.anada }}){% endif %}</td>
+        <td class="text-end"><span class="badge bg-danger">{{ l.cantidad_disponible }}</span></td>
+        <td class="text-end">{{ l.punto_reorden }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="text-muted mb-0">No hay lotes en alerta de stock bajo.</p>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script src="{{ url_for('static', filename='js/admin-charts.js') }}"></script>
+{% endblock %}
