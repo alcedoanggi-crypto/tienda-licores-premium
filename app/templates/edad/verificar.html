@@ -4,8 +4,10 @@
 
 {% block contenido %}
 <div class="pantalla-edad">
+  <div class="luz-ambiente" style="width:420px;height:420px;background:#B8742A;top:-120px;left:-100px"></div>
+  <div class="luz-ambiente" style="width:360px;height:360px;background:#5c3a12;bottom:-120px;right:-80px;animation-delay:3s"></div>
   <div class="tarjeta-edad">
-    <i class="bi bi-cup-straw" style="font-size: 2.2rem; color: var(--dorado);"></i>
+    <div class="sello">18+</div>
     <h1 class="fuente-serif mt-2">LicoresPremium</h1>
     <p class="subtitulo">Este sitio contiene contenido sobre bebidas alcohólicas.<br>Debes confirmar que eres mayor de edad para continuar.</p>
 
@@ -17,7 +19,7 @@
       <input type="hidden" name="siguiente" value="{{ siguiente }}">
       <label class="form-label text-start d-block">Fecha de nacimiento</label>
       <input type="date" name="fecha_nacimiento" class="form-control mb-3" required>
-      <button type="submit" class="btn btn-dorado w-100">Confirmar que soy mayor de 18 años</button>
+      <button type="submit" class="btn btn-dorado brillo w-100">Confirmar que soy mayor de 18 años</button>
     </form>
 
     <p class="small mt-3 mb-0" style="color:#6b6558;">Al continuar aceptas que eres mayor de edad legal para consumir alcohol en tu país. Bebe con responsabilidad.</p>

@@ -1,32 +1,97 @@
 {% extends "base.html" %}
 {% block titulo %}LicoresPremium — Selección de autor{% endblock %}
 
+{% set iconos = {'whisky': 'bi-fire', 'ron': 'bi-sun', 'vodka': 'bi-snow', 'vino': 'bi-droplet-half', 'vinos': 'bi-droplet-half',
+                 'tequila': 'bi-stars', 'gin': 'bi-flower1', 'cerveza': 'bi-cup', 'cervezas': 'bi-cup',
+                 'champagne': 'bi-stars', 'espumantes': 'bi-stars', 'licores': 'bi-gem', 'pisco': 'bi-brightness-high'} %}
+
 {% block contenido %}
 <section class="hero-premium">
-  <div class="container position-relative">
-    <div class="row align-items-center">
-      <div class="col-lg-7">
-        <div class="small text-uppercase mb-2" style="letter-spacing:0.15em; color: var(--ambar-whisky-claro);">Selección de autor</div>
-        <h1 class="fuente-serif">Whisky, ron y vinos <span class="destacar">de otra categoría</span></h1>
-        <p class="lead mt-3">Botellas premium, origen verificado y notas de cata curadas por sommeliers.
+  <div class="container position-relative" style="z-index:1">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-eyebrow aparecer-izq">Selección de autor</div>
+        <h1 class="fuente-serif mt-3 aparecer-izq" style="animation-delay:.1s">Whisky, ron y vinos <span class="destacar">de otra categoría</span></h1>
+        <p class="lead mt-3 aparecer-izq" style="animation-delay:.2s">Botellas premium, origen verificado y notas de cata curadas por sommeliers.
           Envíos discretos a todo el país.</p>
-        <a href="{{ url_for('tienda.catalogo') }}" class="btn btn-dorado btn-lg mt-3">
-          <i class="bi bi-shop-window"></i> Explorar catálogo
-        </a>
+        <div class="d-flex flex-wrap gap-3 mt-4 aparecer-arriba" style="animation-delay:.35s">
+          <a href="{{ url_for('tienda.catalogo') }}" class="btn btn-dorado btn-lg brillo"><i class="bi bi-shop-window"></i> Explorar catálogo</a>
+          <a href="#destacados" class="btn btn-outline-dorado btn-lg">Ver destacados</a>
+        </div>
+        <div class="hero-stats aparecer-arriba" style="animation-delay:.5s">
+          <div><div class="n" data-contador>{{ categorias|length }}</div><div class="t">Categorías</div></div>
+          <div><div class="n">100%</div><div class="t">Origen verificado</div></div>
+          <div><div class="n">24 h</div><div class="t">Envío express</div></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="escena-botella">
+          <div class="halo"></div>
+          <div class="anillo"></div>
+      <span class="burbuja" style="left:44%;width:6px;height:6px;animation-duration:6s;animation-delay:0s"></span>
+      <span class="burbuja" style="left:52%;width:4px;height:4px;animation-duration:7.5s;animation-delay:1.2s"></span>
+      <span class="burbuja" style="left:48%;width:8px;height:8px;animation-duration:8s;animation-delay:2.5s"></span>
+      <span class="burbuja" style="left:56%;width:5px;height:5px;animation-duration:6.5s;animation-delay:3.4s"></span>
+      <span class="burbuja" style="left:46%;width:3px;height:3px;animation-duration:9s;animation-delay:4.1s"></span>
+      <span class="burbuja" style="left:54%;width:7px;height:7px;animation-duration:7s;animation-delay:5s"></span>
+          <svg class="botella" viewBox="0 0 200 470" aria-hidden="true">
+  <defs>
+    <clipPath id="formaBotella">
+      <path d="M86 40 h28 v72 c0 30 46 48 46 92 v222 c0 14 -10 24 -24 24 h-72 c-14 0 -24 -10 -24 -24 v-222 c0 -44 46 -62 46 -92 z"/>
+    </clipPath>
+    <linearGradient id="vidrio" x1="0" x2="1">
+      <stop offset="0" stop-color="#2a2016"/><stop offset=".5" stop-color="#3b2d1d"/><stop offset="1" stop-color="#1a140d"/>
+    </linearGradient>
+    <linearGradient id="licor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F1B550"/><stop offset=".55" stop-color="#C47A1E"/><stop offset="1" stop-color="#7A430C"/>
+    </linearGradient>
+    <linearGradient id="tapa" x1="0" x2="1">
+      <stop offset="0" stop-color="#8a6a1f"/><stop offset=".45" stop-color="#F1D27A"/><stop offset="1" stop-color="#8a6a1f"/>
+    </linearGradient>
+  </defs>
+  <rect x="82" y="8" width="36" height="40" rx="5" fill="url(#tapa)"/>
+  <g clip-path="url(#formaBotella)">
+    <rect x="0" y="0" width="200" height="470" fill="url(#vidrio)"/>
+    <path class="ola-2" d="M-200 236 q 25.0 -7 50 0 q 25.0 7 50 0 q 25.0 -7 50 0 q 25.0 7 50 0 q 25.0 -7 50 0 q 25.0 7 50 0 q 25.0 -7 50 0 q 25.0 7 50 0 q 25.0 -7 50 0 q 25.0 7 50 0 q 25.0 -7 50 0 q 25.0 7 50 0 q 25.0 -7 50 0 V 470 H -200 Z" fill="#E39A35" opacity=".55"/>
+    <path class="ola" d="M-200 242 q 25.0 -9 50 0 q 25.0 9 50 0 q 25.0 -9 50 0 q 25.0 9 50 0 q 25.0 -9 50 0 q 25.0 9 50 0 q 25.0 -9 50 0 q 25.0 9 50 0 q 25.0 -9 50 0 q 25.0 9 50 0 q 25.0 -9 50 0 q 25.0 9 50 0 q 25.0 -9 50 0 V 470 H -200 Z" fill="url(#licor)"/>
+    <rect x="52" y="200" width="9" height="230" rx="4.5" fill="#fff" opacity=".13"/>
+    <rect x="66" y="215" width="4" height="190" rx="2" fill="#fff" opacity=".08"/>
+  </g>
+  <g>
+    <rect x="52" y="292" width="96" height="104" rx="4" fill="#F5F1E8"/>
+    <rect x="57" y="297" width="86" height="94" rx="2" fill="none" stroke="#B8742A" stroke-width="1"/>
+    <text x="100" y="322" text-anchor="middle" font-family="Playfair Display, serif" font-size="11" fill="#7A430C" letter-spacing="2">RESERVA</text>
+    <text x="100" y="352" text-anchor="middle" font-family="Playfair Display, serif" font-size="26" font-weight="700" fill="#1C1A17">18</text>
+    <text x="100" y="368" text-anchor="middle" font-family="Jost, sans-serif" font-size="8" fill="#7A430C" letter-spacing="3">AÑOS</text>
+    <text x="100" y="384" text-anchor="middle" font-family="Jost, sans-serif" font-size="6" fill="#857f70" letter-spacing="1.5">LICORES PREMIUM</text>
+  </g>
+</svg>
+          <div class="etiqueta-flotante e1"><i class="bi bi-award-fill"></i> Notas de cata por sommeliers</div>
+          <div class="etiqueta-flotante e2"><i class="bi bi-truck"></i> Envío discreto y asegurado</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="container py-5">
-  <div class="d-flex justify-content-between align-items-end mb-4">
-    <h2 class="fuente-serif" style="color: var(--blanco-hueso);">Destacados de la casa</h2>
-    <a href="{{ url_for('tienda.catalogo') }}" class="small">Ver todo el catálogo &rarr;</a>
+<div class="marquesina" aria-hidden="true">
+  <div class="marquesina-pista">
+    {% for _ in range(2) %}{% for _ in range(3) %}{% for c in categorias %}<span>{{ c.nombre }}</span>{% endfor %}<span>Edición limitada</span><span>Origen verificado</span>{% endfor %}{% endfor %}
+  </div>
+</div>
+
+<section class="container py-5" id="destacados">
+  <div class="d-flex justify-content-between align-items-end mb-4 revelar-auto">
+    <div>
+      <div class="subtitulo-seccion">La cava recomienda</div>
+      <h2 class="titulo-seccion">Destacados de la casa</h2>
+    </div>
+    <a href="{{ url_for('tienda.catalogo') }}" class="small">Ver todo el catálogo <i class="bi bi-arrow-right"></i></a>
   </div>
 
   <div class="row g-4">
     {% for p in destacados %}
-    <div class="col-6 col-md-4 col-lg-2">
+    <div class="col-6 col-md-4 col-lg-2 revelar-auto">
       {% include "tienda/_tarjeta_producto.html" %}
     </div>
     {% else %}
@@ -35,18 +100,44 @@
   </div>
 </section>
 
-<section class="container pb-5">
-  <h2 class="fuente-serif mb-4" style="color: var(--blanco-hueso);">Categorías</h2>
+<section class="franja-beneficios py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3 revelar-auto"><div class="beneficio"><i class="bi bi-patch-check"></i><div><h6>Origen verificado</h6><p>Cada botella con lote y procedencia rastreable.</p></div></div></div>
+      <div class="col-md-6 col-lg-3 revelar-auto"><div class="beneficio"><i class="bi bi-box2-heart"></i><div><h6>Envío discreto</h6><p>Embalaje protegido y sin marcas externas.</p></div></div></div>
+      <div class="col-md-6 col-lg-3 revelar-auto"><div class="beneficio"><i class="bi bi-shield-lock"></i><div><h6>Pago seguro</h6><p>Transacciones cifradas y confirmación inmediata.</p></div></div></div>
+      <div class="col-md-6 col-lg-3 revelar-auto"><div class="beneficio"><i class="bi bi-cup-straw"></i><div><h6>Asesoría de cata</h6><p>Maridajes y notas escritas por sommeliers.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="container py-5">
+  <div class="mb-4 revelar-auto">
+    <div class="subtitulo-seccion">Explora por estilo</div>
+    <h2 class="titulo-seccion">Categorías</h2>
+  </div>
   <div class="row g-3">
     {% for c in categorias %}
-    <div class="col-6 col-md-3">
-      <a href="{{ url_for('tienda.catalogo', categoria_id=c.id) }}" class="text-decoration-none">
-        <div class="panel-admin text-center py-4" style="border-color: rgba(212,175,55,0.15);">
-          <div class="fuente-serif" style="color: var(--dorado); font-size:1.1rem;">{{ c.nombre }}</div>
-        </div>
+    {% set icono = iconos.get(c.nombre|lower, 'bi-gem') %}
+    <div class="col-6 col-md-4 col-lg-3 revelar-auto">
+      <a href="{{ url_for('tienda.catalogo', categoria_id=c.id) }}" class="tarjeta-categoria">
+        <i class="bi {{ icono }} marca-agua"></i>
+        <div class="icono"><i class="bi {{ icono }}"></i></div>
+        <div class="nombre">{{ c.nombre }}</div>
+        <div class="ir mt-1">Ver colección <i class="bi bi-arrow-right"></i></div>
       </a>
     </div>
     {% endfor %}
+  </div>
+</section>
+
+<section class="container pb-5">
+  <div class="banner-cata revelar-auto">
+    <i class="bi bi-cup-straw copa flotar-lento"></i>
+    <div class="subtitulo-seccion">Ofertas de temporada</div>
+    <h3 class="mb-2">Regala una botella <em style="color:var(--oro)">inolvidable</em></h3>
+    <p class="mb-4" style="max-width:480px">Precios especiales en ediciones limitadas y estuches de regalo. Solo por tiempo limitado.</p>
+    <a href="{{ url_for('tienda.catalogo') }}" class="btn btn-dorado brillo">Ver ofertas <i class="bi bi-arrow-right"></i></a>
   </div>
 </section>
 {% endblock %}
