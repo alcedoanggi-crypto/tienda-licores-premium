@@ -5,7 +5,7 @@ from flask_login import current_user
 
 
 def edad_verificada_requerida(vista):
-    """Exige que el visitante haya pasado la verificación de +18 antes de ver el catálogo/carrito/checkout."""
+    """Exige la verificación de +18 antes de comprar (se aplica solo al checkout)."""
 
     @wraps(vista)
     def envoltura(*args, **kwargs):

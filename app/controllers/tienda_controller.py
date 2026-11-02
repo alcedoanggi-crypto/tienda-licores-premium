@@ -1,13 +1,11 @@
 from flask import Blueprint, abort, render_template, request
 
 from app.models import Categoria, Marca, Producto
-from app.utils.decorators import edad_verificada_requerida
 
 tienda_bp = Blueprint("tienda", __name__)
 
 
 @tienda_bp.route("/")
-@edad_verificada_requerida
 def home():
     destacados = Producto.query.filter_by(activo=True, destacado=True).limit(6).all()
     categorias = Categoria.query.filter_by(es_accesorio=False).order_by(Categoria.nombre).all()
@@ -15,7 +13,6 @@ def home():
 
 
 @tienda_bp.route("/catalogo")
-@edad_verificada_requerida
 def catalogo():
     busqueda = request.args.get("q", "").strip()
     categoria_id = request.args.get("categoria_id", type=int)
@@ -74,7 +71,6 @@ def catalogo():
 
 
 @tienda_bp.route("/producto/<slug>")
-@edad_verificada_requerida
 def producto_detalle(slug):
     producto = Producto.query.filter_by(slug=slug, activo=True).first_or_404()
     resenas = [r for r in producto.resenas if r.aprobada]

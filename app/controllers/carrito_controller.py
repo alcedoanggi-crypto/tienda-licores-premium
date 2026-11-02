@@ -2,13 +2,11 @@ from flask import Blueprint, jsonify, render_template, request
 
 from app.models import Producto
 from app.utils import carrito as carrito_utils
-from app.utils.decorators import edad_verificada_requerida
 
 carrito_bp = Blueprint("carrito", __name__)
 
 
 @carrito_bp.route("/")
-@edad_verificada_requerida
 def ver():
     items = carrito_utils.obtener_items_detallados()
     subtotal = sum(item["subtotal"] for item in items)
@@ -25,7 +23,6 @@ def ver():
 
 
 @carrito_bp.route("/agregar", methods=["POST"])
-@edad_verificada_requerida
 def agregar():
     producto_id = request.form.get("producto_id", type=int)
     cantidad = request.form.get("cantidad", type=int) or 1
@@ -46,7 +43,6 @@ def agregar():
 
 
 @carrito_bp.route("/actualizar", methods=["POST"])
-@edad_verificada_requerida
 def actualizar():
     producto_id = request.form.get("producto_id", type=int)
     cantidad = request.form.get("cantidad", type=int) or 0
@@ -61,7 +57,6 @@ def actualizar():
 
 
 @carrito_bp.route("/eliminar", methods=["POST"])
-@edad_verificada_requerida
 def eliminar():
     producto_id = request.form.get("producto_id", type=int)
     carrito_utils.eliminar_producto(producto_id)
@@ -75,6 +70,5 @@ def eliminar():
 
 
 @carrito_bp.route("/resumen")
-@edad_verificada_requerida
 def resumen():
     return jsonify({"carrito_cantidad": carrito_utils.contar_items(), "subtotal": carrito_utils.calcular_subtotal()})
