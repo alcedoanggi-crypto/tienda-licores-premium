@@ -8,7 +8,7 @@ administrativo con dashboard de ventas.
 
 ## 🎬 Demo en video
 
-Tutorial paso a paso (vertical, ~20 s) con las pantallas del sistema real:
+Tutorial paso a paso (vertical, ~40 s), grabado sobre el sistema real:
 
 [![Ver el video tutorial](docs/video/portada.jpg)](docs/video/tutorial-licores-premium.mp4)
 
