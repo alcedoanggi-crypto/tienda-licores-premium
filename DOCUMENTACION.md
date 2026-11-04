@@ -8,8 +8,8 @@ Complementa al `README.md` (que cubre solo instalación rápida).
 
 ## 1. Visión general
 
-Tienda virtual B2C de licores premium: verificación de edad obligatoria
-antes de ver el catálogo, ficha de producto con notas de cata y maridaje,
+Tienda virtual B2C de licores premium: catálogo abierto y verificación +18
+al registrarse y comprar, ficha de producto con notas de cata y maridaje,
 carrito dinámico por AJAX con recomendaciones cruzadas ("compra también"),
 checkout con opción de regalo, reseñas de clientes y un panel
 administrativo separado con dashboard de ventas.
@@ -147,12 +147,13 @@ misma tabla `usuarios`, pero el rol determina a qué layout entra cada uno.
 
 ### 4.1 Verificación de edad (+18)
 
-No es una validación de un formulario cualquiera: es un **gate a nivel de
-sesión** que protege todas las rutas de la tienda pública.
+El catálogo es **público**: portada, catálogo, fichas y carrito se navegan
+sin pantalla previa de edad (decisión de producto para no frenar la
+conversión). La verificación se exige **al comprar**.
 
-- `app/utils/decorators.py::edad_verificada_requerida` decora `tienda.*`,
-  `carrito.*` y `checkout.*`. Si `session['edad_verificada']` no está
-  activo, redirige a `/verificar-edad?siguiente=<ruta original>`.
+- `app/utils/decorators.py::edad_verificada_requerida` decora solo
+  `checkout.*`. Si `session['edad_verificada']` no está activo, redirige a
+  `/verificar-edad?siguiente=<ruta original>`.
 - `auth_controller.verificar_edad` calcula la edad a partir de la fecha de
   nacimiento ingresada (sin pedir cuenta); si es < 18, muestra un error sin
   activar la sesión; si es ≥ 18, marca `session['edad_verificada'] = True`
@@ -251,7 +252,7 @@ Flask-Login + dos decoradores propios en `app/utils/decorators.py`:
 
 | Decorador | Efecto |
 |---|---|
-| `@edad_verificada_requerida` | Redirige a `/verificar-edad` si la sesión no pasó el gate de +18. Se usa en `tienda.*`, `carrito.*`, `checkout.*`. |
+| `@edad_verificada_requerida` | Redirige a `/verificar-edad` si la sesión no pasó el gate de +18. Se usa solo en `checkout.*`. |
 | `@admin_requerido` | Redirige a `/login` si no hay sesión; responde 403 si `current_user.rol != admin`. Se usa en **todo** `admin.*`. |
 | `@login_required` (Flask-Login) | Se usa en `checkout.*` y `resenas.crear` — comprar y reseñar exige cuenta, aunque navegar el catálogo no. |
 
@@ -323,6 +324,29 @@ Piezas de diseño específicas del pedido:
   público, sidebar negro con acentos dorados, tarjetas KPI
   (`.kpi-card-admin`) con borde izquierdo dorado (rojo si es de alerta).
 
+### 8.1 Rediseño visual (tema profesional + animaciones)
+
+El rediseño es una **capa** sobre los estilos originales: no cambia rutas,
+modelos ni lógica, y los `id`/clases que usa el JavaScript siguen iguales.
+
+| Archivo | Rol |
+|---|---|
+| `app/static/css/tema-pro.css` | Tema "Cava de autor": botella SVG animada, marquesina, tarjetas de categoría, beneficios, sello 18+ |
+| `app/static/css/animaciones.css` | Animaciones reutilizables: `.flotar`, `.brillo`, `.punto-vivo`, `.aparecer-*`, `.revelar` |
+| `app/static/js/animaciones.js` | Contadores de KPI (respetan prefijo `$` y decimales) y revelado con `IntersectionObserver` |
+
+Piezas destacadas:
+
+- **Botella SVG** (`tienda/home.html`): forma recortada con `clipPath`, dos olas de licor desplazándose en bucle, burbujas, halo que respira y anillo dorado que gira.
+- **Marquesina** de categorías con desplazamiento infinito (se pausa al pasar el mouse).
+- **Tarjeta de producto** (`tienda/_tarjeta_producto.html`): zoom y giro leve de la botella, brillo inferior y botón "Ver detalle" al pasar el mouse; la etiqueta "Oferta" late.
+- **Panel admin**: mismas animaciones de KPI (contador) y paneles con revelado.
+
+Accesibilidad: todas las animaciones se apagan con
+`@media (prefers-reduced-motion: reduce)`, y el contador no se ejecuta en
+ese caso (el número real ya viene renderizado desde el servidor, así que sin
+JavaScript la página sigue mostrando los valores correctos).
+
 ---
 
 ## 9. Seguridad y límites conocidos
@@ -354,7 +378,7 @@ eliminado):
    → sin errores de sintaxis.
 2. `create_app()` + inspección de `app.url_map` → 6 blueprints, 38 rutas,
    sin errores de import.
-3. **Gate de edad**: verificado que `/` sin sesión redirige a
+3. **Gate de edad** (versión original, antes de abrir el catálogo): verificado que `/` sin sesión redirigía a
    `/verificar-edad`; que una fecha de nacimiento de menor de edad rechaza
    sin activar la sesión; que una fecha válida sí la activa y permite ver
    `/catalogo`.

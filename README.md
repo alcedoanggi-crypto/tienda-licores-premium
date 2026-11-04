@@ -1,10 +1,27 @@
 # LicoresPremium — Tienda Virtual de Licores Premium
 
-Tienda virtual B2C de licores premium: verificación de edad obligatoria,
+Tienda virtual B2C de licores premium: verificación +18 al registrarse y comprar,
 catálogo con fichas de producto detalladas (origen, graduación alcohólica,
 notas de cata, maridaje), carrito dinámico por AJAX con recomendaciones
 cruzadas, checkout con opción de regalo, reseñas de productos y panel
 administrativo con dashboard de ventas.
+
+## 🎬 Demo en video
+
+Tutorial paso a paso (vertical, ~20 s) con las pantallas del sistema real:
+
+[![Ver el video tutorial](docs/video/portada.jpg)](docs/video/tutorial-licores-premium.mp4)
+
+▶️ **[Ver el video tutorial](docs/video/tutorial-licores-premium.mp4)**
+
+## 📸 Capturas
+
+| | |
+|---|---|
+| ![Portada con botella animada](docs/capturas/home.jpg) | ![Catálogo con filtros](docs/capturas/catalogo.jpg) |
+| *Portada con botella animada* | *Catálogo con filtros* |
+| ![Ficha de producto](docs/capturas/producto.jpg) | ![Panel administrativo](docs/capturas/admin.jpg) |
+| *Ficha de producto* | *Panel administrativo* |
 
 ## Stack
 
@@ -55,10 +72,7 @@ flask --app run.py run --debug
 
 ## Flujo de la tienda
 
-1. **Verificación de edad** (`/verificar-edad`): pantalla de bienvenida
-   estilo "bar oscuro" que exige fecha de nacimiento antes de permitir el
-   acceso al catálogo, carrito o checkout. Se guarda en sesión
-   (`session['edad_verificada']`); el registro/login también la marca.
+1. **Mayoría de edad**: el catálogo, las fichas y el carrito se navegan libremente. La verificación +18 ocurre al **registrarse** (fecha de nacimiento real) y el login marca la sesión como verificada, por lo que el checkout sigue protegido. La pantalla `/verificar-edad` se conserva y es el destino del checkout si una sesión no está verificada.
 2. **Catálogo** (`/catalogo`): filtros por categoría, marca, rango de
    precio, graduación alcohólica mínima y buscador de texto libre.
 3. **Ficha de producto** (`/producto/<slug>`): origen, graduación, notas de
@@ -75,14 +89,19 @@ flask --app run.py run --debug
    alertas de stock bajo por lote/añada, gestión de pedidos, moderación de
    reseñas y promociones.
 
-## Paleta de diseño
+## Diseño visual
 
-| Color                | Hex       | Uso                                  |
-|------------------------|-----------|----------------------------------------|
-| Ámbar whisky            | `#B8860B` | Acentos, botones, gráficos             |
-| Negro elegante           | `#111111` | Fondo general                          |
-| Dorado                    | `#D4AF37` | Títulos, bordes, highlights            |
-| Blanco hueso                | `#F5F1E8` | Texto sobre fondo oscuro               |
+| Color | Hex | Uso |
+|---|---|---|
+| Oro | `#D4AF37` | Títulos, bordes, botones |
+| Cobre | `#B8742A` | Licor de la botella, degradados |
+| Carbón | `#0B0A09` | Fondo general |
+| Blanco hueso | `#F5F1E8` | Texto sobre fondo oscuro |
 
-Tipografía: `Playfair Display` (serif, para títulos tipo etiqueta premium) +
-`Jost` (sans, texto de cuerpo). Definida en `app/static/css/variables.css`.
+Tipografía **Playfair Display** (títulos) + **Jost** (texto). La portada tiene una botella ilustrada en SVG con el licor ondulando, burbujas que suben, halo y anillo dorado giratorio; una marquesina de categorías en movimiento, tarjetas de producto con zoom y botón "Ver detalle" al pasar el mouse, sección de beneficios y banner de ofertas.
+
+**Animaciones** (`app/static/css/animaciones.css` + `app/static/js/animaciones.js`):
+contadores que suben desde 0 en los indicadores, elementos que flotan,
+destello en los botones principales, paneles que aparecen al hacer scroll y
+puntos "en vivo". Todas se desactivan solas si el usuario tiene activada la
+opción del sistema operativo de **reducir movimiento**.
